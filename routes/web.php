@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Post\CommentController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +18,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome');
+
+Route::redirect('/home', '/');
+
+Route::get('test', TestController::class);
+
+Route::get('register', [RegisterController::class, 'index'])->name('register.index');
+Route::post('register', [RegisterController::class, 'store'])->name('register.store');
+
+Route::get('login', [LoginController::class, 'index'])->name('login.index');
+Route::post('login', [LoginController::class, 'store'])->name('login.store');
+
+Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('blog/{post}', [BlogController::class, 'show'])->name('blog.show');
+Route::post('blog/{post}/like', [BlogController::class, 'like'])->name('blog.like');
+
+
+
+Route::resource('posts/{post}/comments', CommentController::class)->only([
+    'index', 'show',
+]);
