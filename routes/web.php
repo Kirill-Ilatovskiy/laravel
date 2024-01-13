@@ -20,15 +20,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::redirect('/home', '/');
+Route::redirect('/home', '/')->name('home.redirect');
 
-Route::get('test', TestController::class);
+Route::get('test', TestController::class)->middleware('token:secret');
 
-Route::get('register', [RegisterController::class, 'index'])->name('register.index');
-Route::post('register', [RegisterController::class, 'store'])->name('register.store');
+Route::middleware('guest')->group(function()
+{
+     Route::get('register', [RegisterController::class, 'index'])->name('register.index');
+    Route::post('register', [RegisterController::class, 'store'])->name('register.store');
 
-Route::get('login', [LoginController::class, 'index'])->name('login.index');
-Route::post('login', [LoginController::class, 'store'])->name('login.store');
+    Route::get('login', [LoginController::class, 'index'])->name('login.index');
+    Route::post('login', [LoginController::class, 'store'])->name('login.store');
+});
 
 Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('blog/{post}', [BlogController::class, 'show'])->name('blog.show');
