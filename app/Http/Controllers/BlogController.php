@@ -29,7 +29,7 @@ class BlogController extends Controller
             'content' => 'Lorem ipsum <strong>dolor</strong> sit amet, consectetur adipisicing elit. Voluptatibus, repellendus?',
 
         ];
-
+        
         return view('blog.show', compact('post'));
     }
 

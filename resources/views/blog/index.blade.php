@@ -1,26 +1,21 @@
-@extends('layouts.base')
-@section('content')
-    <h1 class="mb-5">
-        Список постов
-    </h1>
+@extends('layouts.main')
 
-@if (empty($posts))
-    Нет ни одного поста
-@else
-    @foreach ($posts as $post)
-        <div class="mb-4">
-            <h5>
-                <a href="route('blog.show', $post->id)">
-                    {{$post -> title}}
-                </a>
-            </h5>
+@section('page.title', 'Наш блог')
 
-            <p>
-                {!!$post -> content!!}
-            </p>
+@section('main.content')
+    <x-title>
+        {{ __('Список постов') }}
+    </x-title>
+
+    @if(empty($posts))
+        {{ __('Нет ни одного поста.') }}
+    @else
+        <div class="row">
+            @foreach($posts as $post)
+                <div class="col-12 col-md-4">
+                    <x-post.card :post="$post" />
+                </div>
+            @endforeach
         </div>
-    @endforeach
-@endif
-  
+    @endif
 @endsection
-
