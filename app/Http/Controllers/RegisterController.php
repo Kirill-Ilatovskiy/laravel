@@ -10,38 +10,30 @@ class RegisterController extends Controller
     {
         return view('register.index');
     }
-    public function create()
-    {
-     
-    }
 
-    public function store()
+    public function store(Request $request)
     {
-        
-    }
+        // $data = $request->all();
+        // $data = $request->only(['name', 'email']);
+        // $data = $request->except(['name', 'email']);
+        // dd($data);
 
-    public function show($post)
-    {
-       
-    }
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $agreement = $request->boolean('agreement');
+        // $avatar = $request->file('avatar');
 
-    public function edit($post)
-    {
-        
-    }
+        dd($name, $email, $password, $agreement);
 
-    public function update()
-    {
-    
-    }
+        // dd($request->has('foo'));
+        // dd($request->filled('name'));
+        // dd($request->missing('name'));
 
-    public function delete()
-    {
-        
-    }
+        // if ($name = $request->input('name')) {
+        //     $name = strtoupper($name);
+        // }
 
-    public function like()
-    {
-    
+        return 'Запрос на регистрацию';
     }
 }
