@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use function Laravel\Prompts\alert;
+
 class LoginController extends Controller
 {
     public function index(Request $request)
     {
+        // dd(session()->all()); 
+        // $m = session('foo');
+        // dd($m);
         // $ip = $request->ip();
         // $path = $request->path();
         // $url = $request->url();
@@ -35,10 +40,18 @@ class LoginController extends Controller
         // dd($email, $password, $remember);
        
        
-        if(true)
-        {   
-            return redirect()->back()->withInput();
-        }
+        
+        // session(['foo'=>'Bar']);
+
+        // session()->forget('foo');
+
+        //auntificate user
+        alert1(__('Добро пожаловать!'));
+
+        // if(true)
+        // {   
+        //     return redirect()->back()->withInput();
+        // }
     
 
         return redirect()->route('user');
