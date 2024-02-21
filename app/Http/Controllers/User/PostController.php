@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\StorePostRequest;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -25,12 +26,22 @@ class PostController extends Controller
         return view('user.posts.create');
     }
 
-    public function store(Request $request)
-    {
-        $title = $request->input('title');
-        $content = $request->input('content');
+    public function store(StorePostRequest $request)
+    {   
 
-        // dd($title, $content);
+        $validated = $request->validated();
+        // $validated = $request->validate([
+        //     'title'=> ['required', 'string', 'max:100'],
+        //     'content' => ['required', 'string', 'max:10000']
+        // ]);
+        
+        //    $validated = validator($request->all(), [
+        //     'title'=> ['required', 'string', 'max:100'],
+        //     'content' => ['required', 'string', 'max:10000']
+
+        //    ])->validate();
+
+        dd($validated);
 
         alert1(__('Сохранено!'));
 
@@ -61,10 +72,13 @@ class PostController extends Controller
 
     public function update(Request $request, $post)
     {
-        $title = $request->input('title');
-        $content = $request->input('content');
+        $validated = $request->validate([
+            'title'=> ['required', 'string', 'max:100'],
+            'content' => ['required', 'string', 'max:10000']
+        ]);
 
-        // dd($title, $content);
+        dd($validated);
+
         alert1(__('Сохранено!'));
 
         return redirect()->back();

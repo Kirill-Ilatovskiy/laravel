@@ -22,3 +22,10 @@ if (! function_exists("alert1")) {
         session(['alert1'=>$value]);
     }
 }
+
+if (! function_exists("validate")) {
+    function validate(array $attributes, array $rules): array
+    {
+       return validator($attributes, $rules)->validate();
+    }
+}
