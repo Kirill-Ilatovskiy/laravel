@@ -4,19 +4,15 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StorePostRequest;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $post = (object) [
-            'id' => 123,
-            'title' => 'Lorem ipsum dolor sit amet.',
-            'content' => 'Lorem ipsum <strong>dolor</strong> sit amet consectetur, adipisicing elit. Soluta, qui?',
-        ];
-
-        $posts = array_fill(0, 10, $post);
+       $posts = Post::query()->orderBy('published_at', 'asc')->paginate(12);
 
         return view('user.posts.index', compact('posts'));
     }
@@ -74,10 +70,20 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title'=> ['required', 'string', 'max:100'],
-            'content' => ['required', 'string', 'max:10000']
+            'content' => ['required', 'string', 'max:10000'],
+            'published_at' => ['nulleble', 'string', 'date'],
+            'published' => ['nulleble', 'boolean'],
         ]);
 
-        dd($validated);
+        $post = Post::query()->create([
+            'user_id'=> User::query()->value('id'),
+            'title'=> $validated['title'],
+            'content'=> $validated['content'],
+            'published_at'=> $validated['published_at'] ?? null,
+            'published'=> $validated['published'] ?? false,
+        ]);
+
+        dd($post->toArray());
 
         alert1(__('Сохранено!'));
 
